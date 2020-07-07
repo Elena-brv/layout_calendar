@@ -1,3 +1,63 @@
+$box-size: 100px;
+
 body {
   margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.calendar {
+  width: $box-size * 7.5;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.calendar > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+$months: 28, 29, 30, 31;
+
+@each $month in $months {
+  .calendar-#{$month} > div:nth-child(-n + #{$month}) {
+    width: $box-size;
+    height: $box-size;
+    background-color: #eee;
+    border: 1px solid #000;
+    margin-right: 1px;
+    margin-bottom: 1px;
+  }
+  @for $i from 1 through $month {
+    .calendar-#{$month} > div:nth-child(#{$i})::after {
+      content: "#{$i}";
+      ;
+    }
+  }
+}
+
+$week:
+  ("tue": 1,
+  "wed": 2,
+  "thu": 3,
+  "fri": 4,
+  "sat": 5,
+  "sun": 6);
+
+@each $day, $i in $week {
+  .calendar-#{$day} > div:first-child {
+    margin-left: #{$box-size * $i + $i};
+  }
+}
+
+.calendar > div:hover {
+  cursor: pointer;
+  background-color: pink;
+  transform: translateY(-20px);
+  transition: 0.5s;
 }
